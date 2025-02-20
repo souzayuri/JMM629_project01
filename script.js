@@ -13,7 +13,7 @@ const biomeColors = {
 const biomeOrder = ["Atlantic Forest", "Pantanal", "Cerrado"];
 
 // Load the dataset and rename it as tapirs
-d3.csv('data/activity_summary.csv', d3.autoType)
+d3.csv('data/activity_summary2.csv', d3.autoType)
     .then(tapirs => {
         console.log("Loaded CSV Data:", tapirs);
         console.table(tapirs);
@@ -37,11 +37,7 @@ d3.csv('data/activity_summary.csv', d3.autoType)
 
         // Iterate through each individual and generate a polar plot
         sortedTapirs.forEach(([individual, data]) => {
-            const aggregatedData = d3.rollups(
-                data,
-                v => d3.sum(v, d => d.count), // Sum counts for each hour
-                d => d.hour
-            ).map(([hour, count]) => ({ hour, count }));
+            const aggregatedData = data.map(d => ({ hour: d.hour, count: d.count }));
 
             console.log(`Aggregated Data for ${individual}:`, aggregatedData);
 
