@@ -117,7 +117,7 @@ function drawPolarPlot(svg, tapirs, fillColor) {
         .attr("d", lineGenerator);
 
     // Define the scale steps (e.g., 25%, 50%, 75%, 100% of max value)
-    const scaleSteps = d3.range(0, d3.max(tapirs, d => d.count), d3.max(tapirs, d => d.count) / 4);
+    const scaleSteps = d3.range(0, d3.max(tapirs, d => d.count), d3.max(tapirs, d => d.count) / 5);
 
     // Add stacked scale labels with a better font-family
     g.selectAll(".scale-label")
