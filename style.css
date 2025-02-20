@@ -1,42 +1,47 @@
+/* Apply styles to the entire page */
 body {
-    font-family: 'Bungee', cursive !important;
-    background-color: #f5f5f5;
-    text-align: center;
-    margin: 0;
-    padding: 0;
+    font-family: 'Bungee', cursive !important; /* Use 'Bungee' font with cursive fallback, enforce it */
+    background-color: #f5f5f5; /* Light grey background for a clean look */
+    text-align: center; /* Center all text in the body */
+    margin: 0; /* Remove default margin */
+    padding: 0; /* Remove default padding */
 }
 
+/* Style the main heading (h1) */
 h1 {
-    text-align: center;
-    font-family: "Bungee";
-    color: #475d57;
+    text-align: center; /* Center align heading */
+    font-family: "Bungee"; /* Use the custom font */
+    color: #475d57; /* Dark grey-green color for contrast */
 }
 
+/* Wrapper for the video section */
 .video-wrapper {
-    display: flex; /* Align videos in a row */
-    justify-content: space-between; /* Space them evenly */
-    gap: 20px; /* Adds some space between videos */
-    padding: 20px;
+    display: flex; /* Arrange videos in a horizontal row */
+    justify-content: space-between; /* Evenly distribute space between videos */
+    gap: 20px; /* Add spacing between video elements */
+    padding: 20px; /* Add padding around the container */
 }
 
+/* Each individual video container */
 .video-container {
-    width: 100%; /* Adjust width so three fit in a row */
-    cursor: pointer;
+    width: 100%; /* Make sure videos take full width of their container */
+    cursor: pointer; /* Indicate that videos can be clicked */
 }
 
+/* Video element styles */
 video {
-    width: 100%;
-    height: auto;
+    width: 100%; /* Ensure videos fill their container */
+    height: auto; /* Maintain aspect ratio */
 }
 
 /* Container for all individual plots */
 #chart-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* Responsive grid */
-    gap: 5px;
-    padding: 5px;
-    justify-content: center;
-    color: #475d57;
+    display: grid; /* Use CSS grid layout for responsive arrangement */
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* Automatically fit columns */
+    gap: 5px; /* Small gap between grid items */
+    padding: 5px; /* Padding around the grid */
+    justify-content: center; /* Center align content */
+    color: #475d57; /* Dark grey-green text color */
 }
 
 /* Individual plot container 
@@ -48,57 +53,62 @@ video {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 } */
 
-/* Style for SVGs */
+
+/* Style for SVG plots */
 svg {
-    display: block;
-    margin: auto;
-    border-radius: 50%;
-    background: #ffffff;
+    display: block; /* Ensure SVGs behave as block elements */
+    margin: auto; /* Center align inside their container */
+    border-radius: 50%; /* Make SVGs circular */
+    background: #ffffff; /* White background for clarity */
 }
 
-/* Hour labels inside the plot */
+/* Hour labels inside the radial plots */
 .hour-label {
-    font-family: 'Bungee', cursive !important;
-    font-size: 50px;
-    fill: #6f8982;
+    font-family: 'Bungee', cursive !important; /* Enforce the 'Bungee' font */
+    font-size: 50px; /* Large font size for visibility */
+    fill: #6f8982; /* Grey-green color for subtle contrast */
 }
 
-
+/* Container for biome labels */
 .biomes-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-wrap: wrap; /* Allows wrapping on smaller screens */
-    gap: 5px; /* Adds spacing between divs */
-    padding: 10px;
+    display: flex; /* Arrange biome elements in a row */
+    align-items: center; /* Center vertically */
+    justify-content: center; /* Center horizontally */
+    flex-wrap: wrap; /* Allow items to wrap on smaller screens */
+    gap: 5px; /* Add spacing between biome elements */
+    padding: 10px; /* Padding around the container */
 }
 
+/* Styling for individual biome elements */
 .biome {
-    height: 50px;
-    width: 30%; /* Adjusted for better scaling */
-    min-width: 100px; /* Ensures visibility on smaller screens */
-    background: #2E8B57;
-    opacity: 0.7;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 20px; /* Adjusted for better readability */
-    color: white;
-    text-align: center;
-    border-radius: 5px; /* Adds smooth edges */
+    height: 50px; /* Fixed height */
+    width: 30%; /* Dynamic width to fit multiple items */
+    min-width: 100px; /* Ensure minimum visibility on small screens */
+    background: #2E8B57; /* Default green color for biomes */
+    opacity: 0.7; /* Slight transparency for a softer look */
+    display: flex; /* Flexbox for centering text */
+    align-items: center; /* Center text vertically */
+    justify-content: center; /* Center text horizontally */
+    font-size: 20px; /* Text size for readability */
+    color: white; /* White text for contrast */
+    text-align: center; /* Center align text */
+    border-radius: 5px; /* Rounded edges for smoother appearance */
 }
 
+/* Change the background color for the second biome element */
 .biome:nth-child(2) {
-    background: #806D43;
+    background: #806D43; /* Brown for Pantanal */
 }
 
+/* Change the background color for the third biome element */
 .biome:nth-child(3) {
-    background: #CD853F;
+    background: #CD853F; /* Orange-brown for Cerrado */
 }
 
+/* Responsive adjustments for small screens */
 @media (max-width: 600px) {
     .biome {
-        width: 90%; /* Full width on small screens */
-        font-size: 18px; /* Slightly smaller text */
+        width: 90%; /* Make biome elements take full width */
+        font-size: 18px; /* Reduce font size slightly for better fit */
     }
 }

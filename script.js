@@ -1,59 +1,63 @@
+// Import the D3.js library from the specified CDN
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 
 console.log(d3); // Check if D3 is loaded
 
-// Define biome color mapping
+// Define biome color mapping, associating specific biomes with colors
 const biomeColors = {
-    "Atlantic Forest": "#2E8B57",
-    "Pantanal": "#806D43",
-    "Cerrado": "#CD853F"
+    "Atlantic Forest": "#2E8B57", // Green color for Atlantic Forest
+    "Pantanal": "#806D43", // Brown color for Pantanal
+    "Cerrado": "#CD853F" // Orange color for Cerrado
 };
 
-// Biome sorting order
+// Biome sorting order (used later to maintain a predefined sorting)
 const biomeOrder = ["Atlantic Forest", "Pantanal", "Cerrado"];
 
-// Load the dataset and rename it as tapirs
+// Load the dataset from a CSV file and rename it as "tapirs"
+// d3.csv() loads the file, and d3.autoType() automatically converts data types
 d3.csv('data/activity_summary2.csv', d3.autoType)
-    .then(tapirs => {
-        console.log("Loaded CSV Data:", tapirs);
-        console.table(tapirs);
+    .then(tapirs => { // Executes once the data is successfully loaded
+        console.log("Loaded CSV Data:", tapirs); // Log loaded CSV data
+        console.table(tapirs); // Display it in a table format for better readability
 
-        // Group data by individual.local.identifier
+        // Group data by 'individual.local.identifier' (tapir name)
         const groupedTapirs = d3.group(tapirs, d => d.individual_name);
 
-        console.log("Grouped Tapirs Data:", groupedTapirs);
+        console.log("Grouped Tapirs Data:", groupedTapirs); // Log grouped data
 
-        // Convert grouped data to an array and sort by biome order
+        // Convert grouped data into an array and sort based on predefined biome order
         const sortedTapirs = Array.from(groupedTapirs.entries()).sort((a, b) => {
-            const biomeA = a[1][0].Biome;
-            const biomeB = b[1][0].Biome;
-            return biomeOrder.indexOf(biomeA) - biomeOrder.indexOf(biomeB);
+            const biomeA = a[1][0].Biome; // Extract biome of first entry in group A
+            const biomeB = b[1][0].Biome; // Extract biome of first entry in group B
+            return biomeOrder.indexOf(biomeA) - biomeOrder.indexOf(biomeB); // Sort by index in biomeOrder
         });
 
-        console.log("Sorted Tapirs Data:", sortedTapirs);
+        console.log("Sorted Tapirs Data:", sortedTapirs); // Log sorted data
 
-        // Create a container to hold all plots
+        // Select the container where plots will be displayed
         const container = d3.select("#chart-container");
 
-        // Iterate through each individual and generate a polar plot
+        // Iterate through each individual tapir and generate a polar plot
         sortedTapirs.forEach(([individual, data]) => {
+            // Extract relevant data (hour and count) for each individual
             const aggregatedData = data.map(d => ({ hour: d.hour, count: d.count }));
 
             console.log(`Aggregated Data for ${individual}:`, aggregatedData);
 
-            // Get the biome for the individual (assuming the first entry defines it)
+            // Get the biome of the individual (assuming the first entry defines it)
             const biome = data[0].Biome;
-            const fillColor = biomeColors[biome] || "#b899a1"; // Default color if not found
+            const fillColor = biomeColors[biome] || "#b899a1"; // Default color if biome is missing
 
-            // Create a new div for each individual's plot
+            // Create a new div for each individual's chart
             const individualDiv = container.append("div")
                 .attr("class", "individual-chart")
                 .style("display", "inline-block")
                 .style("margin", "10px");
 
-            // Add title
+            // Add a title displaying the individual's name
             individualDiv.append("h4").text(`${individual}`);
-            // Append SVG element
+
+            // Append an SVG element where the polar plot will be drawn
             const svg = individualDiv.append("svg")
                 .attr("width", 180)
                 .attr("height", 180);
@@ -62,35 +66,35 @@ d3.csv('data/activity_summary2.csv', d3.autoType)
         });
     })
     .catch(error => {
-        console.error("Error loading CSV:", error);
+        console.error("Error loading CSV:", error); // Handle CSV loading errors
     });
 
 // Function to draw a polar plot inside a given SVG
 function drawPolarPlot(svg, tapirs, fillColor) {
     const width = 180, height = 180;
-    const radius = Math.min(width, height) / 2 - 28;
+    const radius = Math.min(width, height) / 2 - 28; // Define radius for plot
 
-    // Append a group element
+    // Create a group (`g`) element and center it in the SVG
     const g = svg.append("g")
         .attr("transform", `translate(${width / 2}, ${height / 2})`);
 
-    // Convert hours to radians (0-23 maps to 0-2π)
+    // Scale for mapping hours (0-24) to radians (0 to 2π)
     const angleScale = d3.scaleLinear()
         .domain([0, 24])
         .range([0, 2 * Math.PI]);
 
-    // Scale for count values
+    // Scale for mapping count values to radial distance
     const radiusScale = d3.scaleLinear()
         .domain([0, d3.max(tapirs, d => d.count)])
         .range([0, radius]);
 
-    // Define line generator
+    // Define a radial line generator for the plot
     const lineGenerator = d3.lineRadial()
         .angle(d => angleScale(d.hour))
         .radius(d => radiusScale(d.count))
         .curve(d3.curveLinearClosed);
 
-    // Draw radial gridlines
+    // Draw radial gridlines (every 3 hours)
     g.selectAll(".grid-line")
         .data(d3.range(0, 24, 3))
         .enter().append("line")
@@ -102,7 +106,7 @@ function drawPolarPlot(svg, tapirs, fillColor) {
         .attr("stroke", "#ccc")
         .attr("stroke-dasharray", "2, 2");
 
-    // Draw line plot
+    // Draw the radial line plot
     g.append("path")
         .datum(tapirs)
         .attr("fill", fillColor)
@@ -130,7 +134,8 @@ function drawPolarPlot(svg, tapirs, fillColor) {
         .attr("fill-opacity", 0.4)
         .text(d => Math.round(d)); // Display rounded values
 
-    // Tooltip div
+
+    // Tooltip for displaying data on hover
     const tooltip = d3.select("body").append("div")
         .attr("class", "tooltip")
         .style("position", "absolute")
@@ -142,7 +147,7 @@ function drawPolarPlot(svg, tapirs, fillColor) {
         .style("visibility", "hidden")
         .style("pointer-events", "none");
 
-    // Add circles for each data point and enable hover effect
+    // Add data points and enable hover effect
     g.selectAll(".data-point")
         .data(tapirs)
         .enter().append("circle")
@@ -166,7 +171,7 @@ function drawPolarPlot(svg, tapirs, fillColor) {
             tooltip.style("visibility", "hidden");
         });
 
-    // Draw hour labels
+    // Draw hour labels around the radial plot
     g.selectAll(".hour-label")
         .data(d3.range(0, 24, 3))
         .enter().append("text")
@@ -177,7 +182,7 @@ function drawPolarPlot(svg, tapirs, fillColor) {
         .attr("fill", "#6f8982")
         .text(d => d);
 
-    // Draw the outer circle
+    // Draw the outer boundary circle
     g.append("circle")
         .attr("cx", 0)
         .attr("cy", 0)
@@ -187,7 +192,7 @@ function drawPolarPlot(svg, tapirs, fillColor) {
         .attr("stroke-width", 1);
 }
 
-// Videos
+// Select all videos in the document
 const videos = document.querySelectorAll('.video-player');
 
 function playAllVideos() {
@@ -205,3 +210,4 @@ document.querySelectorAll('.video-container').forEach(container => {
     container.addEventListener('mouseenter', playAllVideos);
     // container.addEventListener('mouseleave', pauseAllVideos);
 });
+
