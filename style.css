@@ -10,7 +10,7 @@ body {
 /* Style the main heading (h1) */
 h1 {
     text-align: center; /* Center align heading */
-    font-family: "Bungee"; /* Use the custom font */
+    font-family: "Bungee"; /* Use the custom font defined in the HTML*/
     color: #475d57; /* Dark grey-green color for contrast */
 }
 
@@ -95,7 +95,7 @@ svg {
     border-radius: 5px; /* Rounded edges for smoother appearance */
 }
 
-/* Change the background color for the second biome element */
+/* Change the background color for the second biome element - the second .biome in the parent <div> */
 .biome:nth-child(2) {
     background: #806D43; /* Brown for Pantanal */
 }

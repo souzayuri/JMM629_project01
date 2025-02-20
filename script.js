@@ -88,7 +88,7 @@ function drawPolarPlot(svg, tapirs, fillColor) {
         .domain([0, d3.max(tapirs, d => d.count)])
         .range([0, radius]);
 
-    // Define a radial line generator for the plot
+    // Define a radial line generator for the plot - outlines the shape of the plot
     const lineGenerator = d3.lineRadial()
         .angle(d => angleScale(d.hour))
         .radius(d => radiusScale(d.count))
@@ -119,23 +119,23 @@ function drawPolarPlot(svg, tapirs, fillColor) {
     // Define the scale steps (e.g., 25%, 50%, 75%, 100% of max value)
     const scaleSteps = d3.range(0, d3.max(tapirs, d => d.count), d3.max(tapirs, d => d.count) / 4);
 
-    // Add stacked scale labels with a better font
+    // Add stacked scale labels with a better font-family
     g.selectAll(".scale-label")
         .data(scaleSteps)
         .enter().append("text")
         .attr("class", "scale-label")
         .attr("x", 0) // Centered on the y-axis (12 o'clock position)
         .attr("y", d => -radiusScale(d)) // Move upward based on radius
-        .attr("dy", "-4px") // Small offset for readability
+        .attr("dy", "3px") // Small offset for readability
         .attr("text-anchor", "middle")
-        .attr("font-size", "10px") // Adjusted for better readability
+        .attr("font-size", "8px") // Adjusted for better readability
         .attr("font-family", 'Bungee') // Apply the new font
         .attr("fill", "#475d57") // Darker color for contrast
         .attr("fill-opacity", 0.4)
         .text(d => Math.round(d)); // Display rounded values
 
 
-    // Tooltip for displaying data on hover
+    // Tooltip for displaying data on hover - (a small info box that appears when hovering over elements in a visualization)
     const tooltip = d3.select("body").append("div")
         .attr("class", "tooltip")
         .style("position", "absolute")
