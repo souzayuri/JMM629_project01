@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tapir's Diel Activity Polar Plot</title>
+
+    <script src="script.js" type="module"></script> <!-- allows to import modules-->
+    <!-- Import style from CSS -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Import Bungee font from Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Bungee&display=swap" rel="stylesheet">
+</head>
+<body> 
+    <!-- videos -->
+    <h1>Tapir's Diel Activity - Polar Plot</h1>
+    <div class="video-wrapper">
+        <div class="video-container">
+            <video class="video-player" src="data/LATR-010_abr-may.mp4" autoplay loop muted controls></video>
+        </div>
+        <div class="video-container">
+            <video class="video-player" src="data/LATR-010_fev-mar.mp4" autoplay loop muted controls></video>
+        </div>
+        <div class="video-container">
+            <video class="video-player" src="data/LATR-010_may-june.mp4" autoplay loop muted controls></video>
+        </div>
+    </div> 
+
+    <!-- Add white space between videos and legend -->
+    <div style="height: 20px;"></div>
+
+    <!-- legend -->
+    <div style="display: flex; align-items: center; justify-content: center;">
+        <div style="height: 50px; width: 20%; background: #2E8B57; opacity: 0.7; display: flex; align-items: center; justify-content: center; font-size: 26px; color: white;">
+            Atlantic Forest
+        </div>
+        <div style="height: 50px; width: 20%; background: #806D43; opacity: 0.7; display: flex; align-items: center; justify-content: center; font-size: 26px; color: white;">
+            Pantanal
+        </div>
+        <div style="height: 50px; width: 20%; background: #CD853F; opacity: 0.7; display: flex; align-items: center; justify-content: center; font-size: 26px; color: white;">
+            Cerrado
+        </div>
+    </div>
+    
+    <!-- charts -->
+    <div id="chart-container"></div> <!-- to hold all the individual plots -->
+</body>
+</html>

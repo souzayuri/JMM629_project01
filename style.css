@@ -1,0 +1,64 @@
+body {
+    font-family: 'Bungee', cursive !important;
+    background-color: #f5f5f5;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    text-align: center;
+    font-family: "Bungee";
+    color: #475d57;
+}
+
+.video-wrapper {
+    display: flex; /* Align videos in a row */
+    justify-content: space-between; /* Space them evenly */
+    gap: 20px; /* Adds some space between videos */
+    padding: 20px;
+}
+
+.video-container {
+    width: 100%; /* Adjust width so three fit in a row */
+    cursor: pointer;
+}
+
+video {
+    width: 100%;
+    height: auto;
+}
+
+/* Container for all individual plots */
+#chart-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* Responsive grid */
+    gap: 5px;
+    padding: 5px;
+    justify-content: center;
+    color: #475d57;
+}
+
+/* Individual plot container 
+.individual-chart {
+    background: rgb(246, 242, 242);
+    padding: 10px;
+    width: 300px;
+    border-radius: 40px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+} */
+
+/* Style for SVGs */
+svg {
+    display: block;
+    margin: auto;
+    border-radius: 50%;
+    background: #ffffff;
+}
+
+/* Hour labels inside the plot */
+.hour-label {
+    font-family: 'Bungee', cursive !important;
+    font-size: 50px;
+    fill: #6f8982;
+}
