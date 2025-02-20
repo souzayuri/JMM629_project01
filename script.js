@@ -130,6 +130,42 @@ function drawPolarPlot(svg, tapirs, fillColor) {
         .attr("fill-opacity", 0.4)
         .text(d => Math.round(d)); // Display rounded values
 
+    // Tooltip div
+    const tooltip = d3.select("body").append("div")
+        .attr("class", "tooltip")
+        .style("position", "absolute")
+        .style("background", "#fff")
+        .style("border", "1px solid #ccc")
+        .style("padding", "5px")
+        .style("border-radius", "4px")
+        .style("font-size", "12px")
+        .style("visibility", "hidden")
+        .style("pointer-events", "none");
+
+    // Add circles for each data point and enable hover effect
+    g.selectAll(".data-point")
+        .data(tapirs)
+        .enter().append("circle")
+        .attr("class", "data-point")
+        .attr("cx", d => radiusScale(d.count) * Math.cos(angleScale(d.hour) - Math.PI / 2))
+        .attr("cy", d => radiusScale(d.count) * Math.sin(angleScale(d.hour) - Math.PI / 2))
+        .attr("r", 2)
+        .attr("fill", fillColor)
+        .attr("fill-opacity", 0.6)
+        .attr("stroke", "#333")
+        .attr("stroke-width", 0.0)
+        .on("mouseover", (event, d) => {
+            tooltip.style("visibility", "visible")
+                .html(`Hour: ${d.hour}<br>Count: ${d.count}`);
+        })
+        .on("mousemove", (event) => {
+            tooltip.style("top", `${event.pageY - 20}px`)
+                .style("left", `${event.pageX + 10}px`);
+        })
+        .on("mouseout", () => {
+            tooltip.style("visibility", "hidden");
+        });
+
     // Draw hour labels
     g.selectAll(".hour-label")
         .data(d3.range(0, 24, 3))
@@ -151,21 +187,21 @@ function drawPolarPlot(svg, tapirs, fillColor) {
         .attr("stroke-width", 1);
 }
 
-// videos
+// Videos
 const videos = document.querySelectorAll('.video-player');
 
 function playAllVideos() {
     videos.forEach(video => video.play());
 }
 
-//function pauseAllVideos() {
-//    videos.forEach(video => {
-//        video.pause();
-//        video.currentTime = 0; // Reset to start
-//    });
-//}
+// function pauseAllVideos() {
+//     videos.forEach(video => {
+//         video.pause();
+//         video.currentTime = 0; // Reset to start
+//     });
+// }
 
 document.querySelectorAll('.video-container').forEach(container => {
     container.addEventListener('mouseenter', playAllVideos);
-//    container.addEventListener('mouseleave', pauseAllVideos);
+    // container.addEventListener('mouseleave', pauseAllVideos);
 });
